@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Time Tracker</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background-color: #f5f5f5;
+			margin: 0;
+			padding: 20px;
+			transition: background-color 0.3s ease;
+		}
+		.container {
+			max-width: 1000px;
+			margin: 0 auto;
+			background: white;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 0 20px rgba(0,0,0,0.1);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+		.container:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+			animation: fadeIn 0.5s ease;
+		}
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(20px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		th, td {
+			padding: 12px;
+			text-align: center;
+			border: 1px solid #ddd;
+			transition: background-color 0.3s ease;
+		}
+		th {
+			background-color: #4CAF50;
+			color: white;
+			position: sticky;
+			top: 0;
+		}
+		tr:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+		tr:hover {
+			background-color: #f0f0f0;
+		}
+		input[type="time"] {
+			padding: 8px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			width: 120px;
+			transition: border-color 0.3s ease, box-shadow 0.3s ease;
+		}
+		input[type="time"]:focus {
+			border-color: #4CAF50;
+			box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+			outline: none;
+		}
+		.add-row-btn {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-bottom: 20px;
+			transition: all 0.3s ease;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+		.add-row-btn:hover {
+			background-color: #45a049;
+			transform: scale(1.05);
+		}
+		.add-row-btn:active {
+			transform: scale(0.95);
+		}
+		#totalTr {
+			font-weight: bold;
+			transition: all 0.3s ease;
+		}
+		#totalTr.over-limit {
+			background-color: #ff6b6b;
+			color: white;
+			animation: pulse 2s infinite;
+		}
+		@keyframes pulse {
+			0% { background-color: #ff6b6b; }
+			50% { background-color: #ff5252; }
+			100% { background-color: #ff6b6b; }
+		}
+		.history-section {
+			margin-top: 30px;
+			padding: 20px;
+			background: #f9f9f9;
+			border-radius: 5px;
+			animation: slideUp 0.5s ease;
+		}
+		@keyframes slideUp {
+			from { opacity: 0; transform: translateY(20px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		.history-section h2 {
+			color: #333;
+			margin-bottom: 15px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+		.history-entry {
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			transition: background-color 0.3s ease;
+			animation: fadeIn 0.5s ease;
+		}
+		.history-entry:hover {
+			background-color: #f0f0f0;
+		}
+		.history-entry:last-child {
+			border-bottom: none;
+		}
+		.delete-btn {
+			background-color: #ff6b6b;
+			color: white;
+			border: none;
+			padding: 5px 10px;
+			border-radius: 3px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+		.delete-btn:hover {
+			background-color: #ff5252;
+			transform: scale(1.05);
+		}
+		.delete-btn:active {
+			transform: scale(0.95);
+		}
+		.time-input-container {
+			position: relative;
+			display: inline-block;
+		}
+		.time-input-container::after {
+			content: '🕒';
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			pointer-events: none;
+		}
+		.auto-update-badge {
+			background-color: #4CAF50;
+			color: white;
+			padding: 2px 8px;
+			border-radius: 12px;
+			font-size: 12px;
+			margin-left: 10px;
+			animation: pulse 2s infinite;
+		}
+		.tooltip {
+			position: relative;
+			display: inline-block;
+		}
+		.tooltip .tooltiptext {
+			visibility: hidden;
+			background-color: #333;
+			color: white;
+			text-align: center;
+			border-radius: 4px;
+			padding: 5px 10px;
+			position: absolute;
+			z-index: 1;
+			bottom: 125%;
+			left: 50%;
+			transform: translateX(-50%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+		.tooltip:hover .tooltiptext {
+			visibility: visible;
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<form>
+			<table id="timeTable">
+				<thead>
+					<tr>
+						<th>DATE</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+						<th>Total Duration</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody id="timeEntries">
+					<tr>
+						<td align="center"><label id="currentdate"></label></td>
+						<td align="center">
+							<div class="time-input-container">
+								<input type="time" id="starttime1">
+							</div>
+						</td>
+						<td align="center">
+							<div class="time-input-container">
+								<input type="time" id="endtime1">
+							</div>
+						</td>
+						<td align="center"><label id="duration1"></label></td>
+						<td align="center">
+							<button type="button" class="delete-btn tooltip" onclick="deleteRow(this)">
+								Delete
+								<span class="tooltiptext">Remove this time entry</span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr id="totalTr">
+						<td colspan="3" align="center">Total time spent</td>
+						<td align="center"><label id="timeduration"></label></td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+			<button type="button" class="add-row-btn" onclick="addNewRow()">
+				<span>+</span> Add New Entry
+			</button>
+		</form>
+
+		<!--<div class="history-section">
+			<h2>History</h2>
+			<div id="historyList"></div>
+		</div>-->
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script type="text/javascript">
+		var cdate = new Date();
+		var rowCount = 1;
+		var autoUpdateInterval;
+
+		$(document).ready(function(){
+			$("#currentdate").text(cdate.getFullYear()+'-'+(parseInt(cdate.getMonth())+1)+'-'+cdate.getDate());
+			loadFromLocalStorage();
+			loadHistory();
+			startAutoUpdate();
+		});
+
+		function startAutoUpdate() {
+			autoUpdateInterval = setInterval(updateLastEndTime, 1000);
+		}
+
+		function updateLastEndTime() {
+			var lastRow = $("#timeEntries tr").last();
+			if (lastRow.length) {
+				var currentTime = new Date();
+				var hours = currentTime.getHours().toString().padStart(2, '0');
+				var minutes = currentTime.getMinutes().toString().padStart(2, '0');
+				var seconds = currentTime.getSeconds().toString().padStart(2, '0');
+				var timeString = `${hours}:${minutes}:${seconds}`;
+				lastRow.find("input[type='time']").last().val(timeString);
+				calculateTotal();
+			}
+		}
+
+		function addNewRow() {
+			rowCount++;
+			var newRow = `
+				<tr class="new-row">
+					<td align="center"><label>${$("#currentdate").text()}</label></td>
+					<td align="center">
+						<div class="time-input-container">
+							<input type="time" id="starttime${rowCount}">
+						</div>
+					</td>
+					<td align="center">
+						<div class="time-input-container">
+							<input type="time" id="endtime${rowCount}">
+						</div>
+					</td>
+					<td align="center"><label id="duration${rowCount}"></label></td>
+					<td align="center">
+						<button type="button" class="delete-btn tooltip" onclick="deleteRow(this)">
+							Delete
+							<span class="tooltiptext">Remove this time entry</span>
+						</button>
+					</td>
+				</tr>
+			`;
+			$("#timeEntries").append(newRow);
+			$(".new-row").hide().fadeIn(500);
+			saveToLocalStorage();
+		}
+
+		function deleteRow(button) {
+			if ($("#timeEntries tr").length > 1) {
+				$(button).closest('tr').fadeOut(300, function() {
+					$(this).remove();
+					saveToLocalStorage();
+					calculateTotal();
+				});
+			}
+		}
+
+		function getHourDifference(startDate, endDate) {
+			var date_future = new Date(endDate);
+			var date_now = new Date(startDate);
+
+			var seconds = Math.floor((date_future - (date_now))/1000);
+			var minutes = Math.floor(seconds/60);
+			var hours = Math.floor(minutes/60);
+			var days = Math.floor(hours/24);
+			
+			hours = hours-(days*24);
+			minutes = minutes-(days*24*60)-(hours*60);
+			seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+			var hours1 = (hours < 10) ? "0"+hours : hours; 
+			var minutes1 = (minutes < 10) ? "0"+minutes : minutes;
+			var seconds1 = (seconds < 10) ? "0"+seconds : seconds; 
+			
+			return hours1+":"+minutes1+":"+seconds1;
+		}
+
+		function calculateTotal() {
+			var totalHours = 0;
+			var totalMinutes = 0;
+			var totalSeconds = 0;
+
+			$("#timeEntries tr").each(function() {
+				var duration = $(this).find("td:eq(3) label").text();
+				if (duration) {
+					var [hours, minutes, seconds] = duration.split(':').map(Number);
+					totalHours += hours;
+					totalMinutes += minutes;
+					totalSeconds += seconds;
+				}
+			});
+
+			totalMinutes += Math.floor(totalSeconds / 60);
+			totalSeconds = totalSeconds % 60;
+			totalHours += Math.floor(totalMinutes / 60);
+			totalMinutes = totalMinutes % 60;
+
+			var formattedTotal = `${totalHours.toString().padStart(2, '0')}:${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+			$("#timeduration").text(formattedTotal);
+
+			if (totalHours >= 8 && totalMinutes >= 30) {
+				$("#totalTr").addClass('over-limit');
+			} else {
+				$("#totalTr").removeClass('over-limit');
+			}
+
+			saveToHistory();
+		}
+
+		function saveToLocalStorage() {
+			var entries = [];
+			$("#timeEntries tr").each(function() {
+				var startTime = $(this).find("input[type='time']").first().val();
+				var endTime = $(this).find("input[type='time']").last().val();
+				if (startTime && endTime) {
+					entries.push({startTime, endTime});
+				}
+			});
+			localStorage.setItem('timeEntries', JSON.stringify(entries));
+		}
+
+		function loadFromLocalStorage() {
+			var entries = JSON.parse(localStorage.getItem('timeEntries') || '[]');
+			entries.forEach((entry, index) => {
+				if (index > 0) {
+					addNewRow();
+				}
+				$(`#starttime${index + 1}`).val(entry.startTime);
+				$(`#endtime${index + 1}`).val(entry.endTime);
+			});
+		}
+
+		function saveToHistory() {
+			var today = $("#currentdate").text();
+			var totalTime = $("#timeduration").text();
+			var history = JSON.parse(localStorage.getItem('timeHistory') || '[]');
+			
+			var todayEntry = history.find(entry => entry.date === today);
+			if (todayEntry) {
+				todayEntry.totalTime = totalTime;
+			} else {
+				history.push({date: today, totalTime: totalTime});
+			}
+			
+			localStorage.setItem('timeHistory', JSON.stringify(history));
+			loadHistory();
+		}
+
+		function loadHistory() {
+			//var history = JSON.parse(localStorage.getItem('timeHistory') || '[]');
+			//var historyHtml = '';
+			
+			//history.reverse().forEach(entry => {
+			//	historyHtml += `
+			//		<div class="history-entry">
+			//			<span>${entry.date}: ${entry.totalTime}</span>
+			//			<button class="delete-btn" onclick="deleteHistoryEntry('${entry.date}')">Delete</button>
+			//		</div>
+			//	`;
+			//});
+			
+			//$("#historyList").html(historyHtml);
+		}
+
+		function deleteHistoryEntry(date) {
+			var history = JSON.parse(localStorage.getItem('timeHistory') || '[]');
+			history = history.filter(entry => entry.date !== date);
+			localStorage.setItem('timeHistory', JSON.stringify(history));
+			loadHistory();
+		}
+
+		setInterval(function(){
+			var tdate = moment(cdate, 'YYYY-MM-DD').format('YYYY-MM-DD');
+			
+			$("#timeEntries tr").each(function(index) {
+				var rowNum = index + 1;
+				var stime = $(`#starttime${rowNum}`).val();
+				var etime = $(`#endtime${rowNum}`).val();
+				
+				if (stime && etime) {
+					var startDate = tdate + " " + stime + ":00";
+					var endDate = tdate + " " + etime + ":00";
+					var difference = getHourDifference(startDate, endDate);
+					$(`#duration${rowNum}`).text(difference);
+				}
+			});
+
+			calculateTotal();
+		}, 1000);
+
+		// Save to localStorage and update history when inputs change
+		$("input[type='time']").on('change', function() {
+			saveToLocalStorage();
+			calculateTotal();
+			saveToHistory();
+			loadHistory();
+		});
+	</script>
+</body>
+</html>
