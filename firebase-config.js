@@ -25,13 +25,13 @@ import {
 
 // Your Firebase configuration
 export const firebaseConfig = {
-    apiKey: "__API_KEY__",
-    authDomain: "__AUTH_DOMAIN__",
-    projectId: "__PROJECT_ID__",
-    storageBucket: "__STORAGE_BUCKET__",
-    messagingSenderId: "__MESSAGING_SENDER_ID__",
-    appId: "__APP_ID__",
-    measurementId: "__MEASUREMENT_ID__"
+  apiKey: "AIzaSyBO84psAESvunMUi8yQqyrjFNx3jCB35IA",
+  authDomain: "time-89344.firebaseapp.com",
+  projectId: "time-89344",
+  storageBucket: "time-89344.firebasestorage.app",
+  messagingSenderId: "569662029549",
+  appId: "1:569662029549:web:9d95f2ffb0aebea87016e4",
+  measurementId: "G-589FNWG7FN"
 };
 
 // Initialize Firebase
