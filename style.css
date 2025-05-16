@@ -1,299 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	background-color: #f5f5f5;
-	margin: 0;
-	padding: 20px;
-	transition: background-color 0.3s ease;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 .container {
-	max-width: 1000px;
-	margin: 0 auto;
-	background: white;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0 0 20px rgba(0,0,0,0.1);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
 }
 
-.container:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
 }
 
-.login-container {
-	max-width: 400px;
-	margin: 100px auto;
-	text-align: center;
-	padding: 40px;
+h2 {
+    color: #34495e;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.5rem;
 }
 
-.login-btn {
-	background-color: #4285f4;
-	color: white;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 16px;
-	transition: background-color 0.3s ease;
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.login-btn:hover {
-	background-color: #3367d6;
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.user-info {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-	padding: 10px;
-	background: #f9f9f9;
-	border-radius: 5px;
+#googleLoginBtn {
+    background: #4285f4;
+    color: white;
 }
 
-.logout-btn {
-	background-color: #dc3545;
-	color: white;
-	padding: 5px 15px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
+#syncBtn {
+    background: #34a853;
+    color: white;
 }
 
-.logout-btn:hover {
-	background-color: #c82333;
+#userInfo {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 1px solid #e9ecef;
 }
 
-.date-selector {
-	margin-bottom: 20px;
+#historyList {
+    list-style: none;
+    margin: 1rem 0;
 }
 
-.date-selector input {
-	padding: 8px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	margin-right: 10px;
+#historyList li {
+    background: #f8f9fa;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s;
 }
 
-.load-date-btn {
-	background-color: #17a2b8;
-	color: white;
-	padding: 8px 16px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-}
-
-.load-date-btn:hover {
-	background-color: #138496;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-bottom: 20px;
-	animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-	from { opacity: 0; transform: translateY(20px); }
-	to { opacity: 1; transform: translateY(0); }
-}
-
-th, td {
-	padding: 12px;
-	text-align: center;
-	border: 1px solid #ddd;
-	transition: background-color 0.3s ease;
-}
-
-th {
-	background-color: #4CAF50;
-	color: white;
-	position: sticky;
-	top: 0;
-}
-
-tr:nth-child(even) {
-	background-color: #f9f9f9;
-}
-
-tr:hover {
-	background-color: #f0f0f0;
-}
-
-input[type="time"] {
-	padding: 8px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	width: 120px;
-	transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="time"]:focus {
-	border-color: #4CAF50;
-	box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-	outline: none;
-}
-
-.add-row-btn {
-	background-color: #4CAF50;
-	color: white;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	margin-bottom: 20px;
-	transition: all 0.3s ease;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.add-row-btn:hover {
-	background-color: #45a049;
-	transform: scale(1.05);
-}
-
-.add-row-btn:active {
-	transform: scale(0.95);
-}
-
-#totalTr {
-	font-weight: bold;
-	transition: all 0.3s ease;
-}
-
-#totalTr.over-limit {
-	background-color: #ff6b6b;
-	color: white;
-	animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-	0% { background-color: #ff6b6b; }
-	50% { background-color: #ff5252; }
-	100% { background-color: #ff6b6b; }
-}
-
-.history-section {
-	margin-top: 30px;
-	padding: 20px;
-	background: #f9f9f9;
-	border-radius: 5px;
-	animation: slideUp 0.5s ease;
-}
-
-@keyframes slideUp {
-	from { opacity: 0; transform: translateY(20px); }
-	to { opacity: 1; transform: translateY(0); }
-}
-
-.history-section h2 {
-	color: #333;
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.history-entry {
-	padding: 10px;
-	border-bottom: 1px solid #ddd;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	transition: background-color 0.3s ease;
-	animation: fadeIn 0.5s ease;
-	cursor: pointer;
-}
-
-.history-entry:hover {
-	background-color: #f0f0f0;
-}
-
-.history-entry:last-child {
-	border-bottom: none;
-}
-
-.delete-btn {
-	background-color: #ff6b6b;
-	color: white;
-	border: none;
-	padding: 5px 10px;
-	border-radius: 3px;
-	cursor: pointer;
-	transition: all 0.3s ease;
-}
-
-.delete-btn:hover {
-	background-color: #ff5252;
-	transform: scale(1.05);
-}
-
-.delete-btn:active {
-	transform: scale(0.95);
-}
-
-.time-input-container {
-	position: relative;
-	display: inline-block;
-}
-
-.time-input-container::after {
-	content: '🕒';
-	position: absolute;
-	right: 10px;
-	top: 50%;
-	transform: translateY(-50%);
-	pointer-events: none;
-}
-
-.auto-update-badge {
-	background-color: #4CAF50;
-	color: white;
-	padding: 2px 8px;
-	border-radius: 12px;
-	font-size: 12px;
-	margin-left: 10px;
-	animation: pulse 2s infinite;
-}
-
-.tooltip {
-	position: relative;
-	display: inline-block;
-}
-
-.tooltip .tooltiptext {
-	visibility: hidden;
-	background-color: #333;
-	color: white;
-	text-align: center;
-	border-radius: 4px;
-	padding: 5px 10px;
-	position: absolute;
-	z-index: 1;
-	bottom: 125%;
-	left: 50%;
-	transform: translateX(-50%);
-	opacity: 0;
-	transition: opacity 0.3s;
-}
-
-.tooltip:hover .tooltiptext {
-	visibility: visible;
-	opacity: 1;
-}
-
-.hidden {
-	display: none;
-}
-
-.loading {
-	text-align: center;
-	padding: 20px;
+#historyList li:hover {
+    transform: translateX(5px);
+    background: #e9ecef;
 }

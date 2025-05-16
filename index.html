@@ -1,93 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Time Tracker</title>
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-	<link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Google Login with Firebase</title>
+	<script type="module" src="script.js" defer></script>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-	<!-- Loading Page -->
-	<div id="loadingPage" class="container loading">
-		<h1>Time Tracker</h1>
-		<p>Loading...</p>
+	<div class="container">
+		<header>
+			<h1></i>Time-Tracker</h1>
+		</header>
+		
+		<main>
+			<section class="auth-section">
+				<button id="googleLoginBtn">
+					<i class="fab fa-google"></i> Login with Google
+				</button>
+				<button id="syncBtn">
+					<i class="fas fa-sync"></i> Sync to Firebase
+				</button>
+			</section>
+
+			<section class="user-section">
+				<h2><i class="fas fa-user"></i> User Info</h2>
+				<div id="userInfo" class="info-box">
+					<p class="placeholder">Not logged in</p>
+				</div>
+			</section>
+
+			<section class="history-section">
+				<h2><i class="fas fa-history"></i> Login History</h2>
+				<ul id="historyList"></ul>
+			</section>
+		</main>
 	</div>
-
-	<!-- Login Page -->
-	<div id="loginPage" class="container login-container hidden">
-		<h1>Time Tracker</h1>
-		<p>Please sign in to continue</p>
-		<button id="loginBtn" class="login-btn">Sign in with Google</button>
-	</div>
-
-	<!-- Main App -->
-	<div id="mainApp" class="container hidden">
-		<div class="user-info">
-			<span id="userInfo">Loading...</span>
-			<button id="logoutBtn" class="logout-btn">Logout</button>
-		</div>
-
-		<div class="date-selector">
-			<input type="date" id="dateSelector" />
-			<button id="loadDateBtn" class="load-date-btn">Load Date</button>
-			<button id="todayBtn" class="load-date-btn">Today</button>
-		</div>
-
-		<form>
-			<table id="timeTable">
-				<thead>
-					<tr>
-						<th>DATE</th>
-						<th>Start Time</th>
-						<th>End Time</th>
-						<th>Total Duration</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody id="timeEntries">
-					<tr>
-						<td align="center"><label id="currentdate"></label></td>
-						<td align="center">
-							<div class="time-input-container">
-								<input type="time" id="starttime1">
-							</div>
-						</td>
-						<td align="center">
-							<div class="time-input-container">
-								<input type="time" id="endtime1">
-							</div>
-						</td>
-						<td align="center"><label id="duration1"></label></td>
-						<td align="center">
-							<button type="button" class="delete-btn tooltip" onclick="deleteRow(this)">
-								Delete
-								<span class="tooltiptext">Remove this time entry</span>
-							</button>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr id="totalTr">
-						<td colspan="3" align="center">Total time spent</td>
-						<td align="center"><label id="timeduration"></label></td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
-			<button type="button" class="add-row-btn" onclick="addNewRow()">
-				<span>+</span> Add New Entry
-			</button>
-		</form>
-
-		<div class="history-section">
-			<h2>📅 Date History</h2>
-			<div id="historyList"></div>
-		</div>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
-	<script type="module" src="firebase-config.js"></script>
-	<script type="module" src="script.js"></script>
-	<script type="module" src="main.js"></script>
 </body>
 </html>
