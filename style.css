@@ -1,3 +1,31 @@
+:root[data-theme="light"] {
+    --bg-gradient-start: #f5f7fa;
+    --bg-gradient-end: #c3cfe2;
+    --container-bg: white;
+    --text-primary: #2c3e50;
+    --text-secondary: #34495e;
+    --button-primary: #4285f4;
+    --button-secondary: #34a853;
+    --info-bg: #f8f9fa;
+    --info-border: #e9ecef;
+    --hover-bg: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="dark"] {
+    --bg-gradient-start: #1a1a1a;
+    --bg-gradient-end: #2d3436;
+    --container-bg: #2d3436;
+    --text-primary: #ffffff;
+    --text-secondary: #dfe6e9;
+    --button-primary: #4a90e2;
+    --button-secondary: #2ecc71;
+    --info-bg: #353b48;
+    --info-border: #2f3640;
+    --hover-bg: #2f3640;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,34 +34,72 @@
 }
 
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    transition: background 0.3s ease;
 }
 
 .container {
-    background: white;
+    background: var(--container-bg);
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px var(--shadow-color);
     width: 100%;
     max-width: 600px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: 2px solid var(--text-primary);
+    color: var(--text-primary);
+    width: auto;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--text-primary);
+    color: var(--container-bg);
+}
+
+.theme-toggle .fa-sun {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .fa-sun {
+    display: inline-block;
+}
+
+[data-theme="dark"] .theme-toggle .fa-moon {
+    display: none;
 }
 
 h1 {
-    color: #2c3e50;
+    color: var(--text-primary);
     text-align: center;
-    margin-bottom: 2rem;
     font-size: 2.2rem;
+    transition: color 0.3s ease;
 }
 
 h2 {
-    color: #34495e;
+    color: var(--text-secondary);
     margin: 1.5rem 0 1rem;
     font-size: 1.5rem;
+    transition: color 0.3s ease;
 }
 
 button {
@@ -45,30 +111,43 @@ button {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
 }
 
 button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px var(--shadow-color);
 }
 
 #googleLoginBtn {
-    background: #4285f4;
+    background: var(--button-primary);
     color: white;
 }
 
 #syncBtn {
-    background: #34a853;
+    background: var(--button-secondary);
     color: white;
 }
 
 #userInfo {
-    background: #f8f9fa;
+    background: var(--info-bg);
     padding: 1rem;
     border-radius: 8px;
     margin: 1rem 0;
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--info-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    color: var(--text-primary);
+}
+
+#userInfo p {
+    margin: 0.5rem 0;
+    color: var(--text-primary);
+}
+
+#userInfo .placeholder {
+    color: var(--text-secondary);
+    text-align: center;
+    font-style: italic;
 }
 
 #historyList {
@@ -77,15 +156,22 @@ button:hover {
 }
 
 #historyList li {
-    background: #f8f9fa;
+    background: var(--info-bg);
     padding: 1rem;
     margin: 0.5rem 0;
     border-radius: 8px;
-    border: 1px solid #e9ecef;
-    transition: transform 0.2s;
+    border: 1px solid var(--info-border);
+    transition: transform 0.2s, background-color 0.3s ease, border-color 0.3s ease;
+    color: var(--text-primary);
 }
 
 #historyList li:hover {
     transform: translateX(5px);
-    background: #e9ecef;
+    background: var(--hover-bg);
+}
+
+.placeholder {
+    color: var(--text-secondary);
+    text-align: center;
+    font-style: italic;
 }
