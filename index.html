@@ -2,21 +2,40 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Google Login with Firebase</title>
 	<script type="module" src="script.js" defer></script>
 	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 	<div class="container">
-		<h1>Google Login Demo</h1>
-		<button id="googleLoginBtn">Login with Google</button>
-		<button id="syncBtn">Sync to Firebase</button>
+		<header>
+			<h1></i>Time-Tracker</h1>
+		</header>
+		
+		<main>
+			<section class="auth-section">
+				<button id="googleLoginBtn">
+					<i class="fab fa-google"></i> Login with Google
+				</button>
+				<button id="syncBtn">
+					<i class="fas fa-sync"></i> Sync to Firebase
+				</button>
+			</section>
 
-		<h2>User Info</h2>
-		<div id="userInfo"></div>
+			<section class="user-section">
+				<h2><i class="fas fa-user"></i> User Info</h2>
+				<div id="userInfo" class="info-box">
+					<p class="placeholder">Not logged in</p>
+				</div>
+			</section>
 
-		<h2>Login History</h2>
-		<ul id="historyList"></ul>
+			<section class="history-section">
+				<h2><i class="fas fa-history"></i> Login History</h2>
+				<ul id="historyList"></ul>
+			</section>
+		</main>
 	</div>
 </body>
 </html>
